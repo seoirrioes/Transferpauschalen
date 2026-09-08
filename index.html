@@ -149,7 +149,7 @@ function fillSelects(){
   const groups={};ST.forEach((s,i)=>{(groups[s.l]=groups[s.l]||[]).push(i)});
   const order=['Deutschland','Schweiz','Italien','Belgien'];
   const opts=Object.keys(groups).sort((a,b)=>order.indexOf(a)-order.indexOf(b)).map(land=>{
-    const inner=groups[land].map(i=>`<option value="${i}">${L[i]}</option>`).join('');
+    const inner=groups[land].slice().sort((a,b)=>L[a].localeCompare(L[b],'de')).map(i=>`<option value="${i}">${L[i]}</option>`).join('');
     return land?`<optgroup label="${land}">${inner}</optgroup>`:inner;
   }).join('');
   const von=document.getElementById('von'),bis=document.getElementById('bis');
