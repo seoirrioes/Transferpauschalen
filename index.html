@@ -66,6 +66,7 @@ select{width:100%;appearance:none;-webkit-appearance:none;background:var(--surfa
 .cell .lab{margin-bottom:4px}
 .cell .val{font-size:26px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
 .cell.ret .lab{color:var(--ret)} .cell.ret .val{color:var(--ret)}
+.cell.right{text-align:right}
 .meta{color:var(--muted);font-size:12px;margin-top:3px}
 .hintline{color:var(--muted);font-size:12px;margin:14px 2px 0;text-align:center}
 details.settings{margin-top:18px;border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow:hidden}
@@ -123,7 +124,7 @@ button:focus-visible,select:focus-visible,a:focus-visible,summary:focus-visible,
       </div>
       <div class="grid2">
         <div class="cell ret"><span class="lab">Rückfahrtpauschale</span><div class="val" id="r-ret">–</div></div>
-        <div class="cell ret"><span class="lab">Rückfahrzeit</span><div class="val" id="r-rettime">–</div><div class="meta" id="r-retmeta"></div></div>
+        <div class="cell ret right"><span class="lab">Rückfahrzeit</span><div class="val" id="r-rettime">–</div><div class="meta" id="r-retmeta"></div></div>
       </div>
     </div>
     <p class="hintline" id="hint"></p>
@@ -155,6 +156,7 @@ function fillSelects(){
   von.innerHTML=opts;bis.innerHTML=opts;von.value=7;bis.value=3;
 }
 function ceilTo(x,s){return Math.ceil(x/s)*s;}
+function hm(m){const h=Math.floor(m/60),mm=Math.round(m-h*60);return h+':'+String(mm).padStart(2,'0')+' Std.';}
 function calc(){
   const i=+document.getElementById('von').value, j=+document.getElementById('bis').value;
   const T=document.getElementById('r-transfer'),R=document.getElementById('r-ret'),
@@ -166,9 +168,9 @@ function calc(){
   const retmins=mins/2, rethrs=retmins/60;
   T.textContent=nf.format(transfer)+' €';
   R.textContent=nf.format(ret)+' €';
-  F.textContent=nf2.format(hrs)+' Std.';
+  F.textContent=hm(mins);
   M.textContent=mins+' min · '+nf.format(Math.round(KM[i][j]))+' km';
-  RT.textContent=nf2.format(rethrs)+' Std.';
+  RT.textContent=hm(retmins);
   RM.textContent=nf.format(retmins)+' min · für den Stundenzettel';
   H.textContent=`Fahrzeit ${mins} min × ${nf2.format(cfg.wage)} €/Std ÷ 60, aufgerundet. Rückfahrzeit = halbe Fahrzeit.`;
 }
